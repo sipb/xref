@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import datetime
+import re
 import os
 import os.path
 import sys
@@ -60,6 +61,11 @@ def load_repositories(refresh=True):
     repo_map = {}
     for line in config_file:
         line = line.strip()
+        line = re.sub("#.*", "", line)
+        line = line.strip()
+        if not line:
+            continue
+
         name, vcs, config = line.split(' ', 2)
         path = os.path.join(sources_path, name)
 
