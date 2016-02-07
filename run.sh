@@ -11,4 +11,6 @@ lockfile "$LOCKFILE"
 LOGFILE="${LOGDIR}/run_$(date +%Y-%m-%d_%H.%M.%S).log"
 python update.py > "$LOGFILE" 2>&1
 
+zcrypt -c xref-spew -i run < "$LOGFILE"
+
 rm -f "$LOCKFILE"
