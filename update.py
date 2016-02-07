@@ -45,9 +45,17 @@ class HgRepositoryUpdater(SourceRepositoryUpdater):
     def update_repo(self):
         subprocess.check_call(['hg', 'pull', '-u'], cwd=self.path)
 
+class SubversionRepositoryUpdater(SourceRepositoryUpdater):
+    def init_repo(self):
+        subprocess.check_call(['svn', 'checkout', self.source, self.path])
+
+    def update_repo(self):
+        subprocess.check_call(['svn', 'update'], cwd=self.path)
+
 vcs_updaters = {
     'git' : GitRepositoryUpdater,
     'hg' : HgRepositoryUpdater,
+    'svn' : SubversionRepositoryUpdater,
 }
 
 #
