@@ -13,6 +13,8 @@ import git
 config_repo_path = os.environ['XREF_CONFIG']
 sources_path = os.environ['XREF_SOURCES']
 
+dev_null = open(os.devnull, 'wb')
+
 #
 # VCS-specific handling
 #
@@ -47,10 +49,10 @@ class HgRepositoryUpdater(SourceRepositoryUpdater):
 
 class SubversionRepositoryUpdater(SourceRepositoryUpdater):
     def init_repo(self):
-        subprocess.check_call(['svn', 'checkout', self.source, self.path])
+        subprocess.check_call(['svn', 'checkout', self.source, self.path], stdout=dev_null)
 
     def update_repo(self):
-        subprocess.check_call(['svn', 'update'], cwd=self.path)
+        subprocess.check_call(['svn', 'update'], cwd=self.path, stdout=dev_null)
 
 vcs_updaters = {
     'git' : GitRepositoryUpdater,
