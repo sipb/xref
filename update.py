@@ -38,8 +38,16 @@ class GitRepositoryUpdater(SourceRepositoryUpdater):
         repo.git('fetch', '--all')
         repo.remote_checkout('master')
 
+class HgRepositoryUpdater(SourceRepositoryUpdater):
+    def init_repo(self):
+        subprocess.check_call(['hg', 'clone', self.source, self.path])
+
+    def update_repo(self):
+        subprocess.check_call(['hg', 'pull', '-u'], cwd=self.path)
+
 vcs_updaters = {
     'git' : GitRepositoryUpdater,
+    'hg' : HgRepositoryUpdater,
 }
 
 #
